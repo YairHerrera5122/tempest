@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tempest Barbería</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/scrollreveal"></script>
 </head>
+
 <body>
 
     <nav class="nav">
@@ -25,31 +28,27 @@
     <section id="servicios" class="servicios">
         <h2>Servicios</h2>
         <ul>
-            <li>Corte clásico</li>
-            <li>Fade / Degradado</li>
-            <li>Barba</li>
-            <li>Corte + Barba</li>
+            <li><i class="fa-solid fa-scissors"></i> Corte clásico</li>
+            <li><i class="fa-solid fa-fire"></i> Fade / Degradado</li>
+            <li><i class="fa-solid fa-user"></i> Barba</li>
+            <li><i class="fa-solid fa-star"></i> Corte + Barba</li>
         </ul>
     </section>
 
     <section id="galeria" class="galeria">
         <h2>Nuestros trabajos</h2>
          <div class="imagenes">
-
              <!-- PLACEHOLDERS (por ahora) -->
             <div class="ph">Próximamente</div>
             <div class="ph">Próximamente</div>
             <div class="ph">Próximamente</div>
-
             <!-- IMÁGENES REALES (activar cuando las tengas)
             <img src="../../assets/tempest/cortes/corte1.jpg" alt="Corte 1">
             <img src="../../assets/tempest/cortes/corte2.jpg" alt="Corte 2">
             <img src="../../assets/tempest/cortes/corte3.jpg" alt="Corte 3">
             -->
-
         </div>
     </section>
-
 
     <section id="turno" class="turno">
         <h2>Reservá tu turno</h2>
@@ -57,5 +56,16 @@
     </section>
 
     <script src="script.js"></script>
+
+    <button id="topBtn" onclick="volverArriba()">⬆</button>
+
+    <footer class="footer">
+    <p>© 2026 Tempest Barbería</p>
+    <div class="redes">
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://wa.me/5492975440834"><i class="fa-brands fa-whatsapp"></i></a>
+    </div>
+</footer>
+
 </body>
 </html>
