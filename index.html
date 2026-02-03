@@ -39,9 +39,9 @@
         <h2>Nuestros trabajos</h2>
          <div class="imagenes">
              <!-- PLACEHOLDERS (por ahora) -->
-            <div class="ph">Próximamente</div>
-            <div class="ph">Próximamente</div>
-            <div class="ph">Próximamente</div>
+            <div class="ph" onclick="abrirLightbox(this)">Próximamente</div>
+            <div class="ph" onclick="abrirLightbox(this)">Próximamente</div>
+            <div class="ph" onclick="abrirLightbox(this)">Próximamente</div>
             <!-- IMÁGENES REALES (activar cuando las tengas)
             <img src="../../assets/tempest/cortes/corte1.jpg" alt="Corte 1">
             <img src="../../assets/tempest/cortes/corte2.jpg" alt="Corte 2">
@@ -66,6 +66,11 @@
         <a href="https://wa.me/5492975440834"><i class="fa-brands fa-whatsapp"></i></a>
     </div>
 </footer>
+
+<div id="lightbox" class="lightbox" onclick="cerrarLightbox()">
+    <span id="lightboxText">Próximamente</span>
+    <img id="lightboxImg" src="" alt="">
+</div>
 
 </body>
 </html>

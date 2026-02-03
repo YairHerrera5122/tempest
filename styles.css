@@ -1,3 +1,11 @@
+:root {
+    --bg: #0d0d16;
+    --surface: #1a1a2e;
+    --lila: #c9a0ff;
+    --celeste: #8be9fd;
+    --texto: #b8c1ec;
+}
+
 html {
     scroll-behavior: smooth;
 }
@@ -10,25 +18,25 @@ html {
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #0d0d16;
+     background: var(--bg);
     color: white;
 }
 
 header {
     text-align: center;
     padding: 80px 20px;
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    background: linear-gradient(135deg, var(--surface), #16213e);
 }
 
 header h1 {
     font-size: 56px;
-    color: #c9a0ff;
+    color: var(--lila);
 }
 
 header p {
     margin-top: 10px;
     font-size: 20px;
-    color: #b8c1ec;
+   color: var(--texto);
 }
 
 .servicios {
@@ -50,7 +58,7 @@ ul {
 }
 
 li {
-    background: #1f1f2e;
+     background: var(--surface);
     padding: 25px 35px;
     border-radius: 10px;
     font-size: 20px;
@@ -59,7 +67,7 @@ li {
 
 li:hover {
     transform: translateY(-5px);
-    background: #2a2a40;
+     background: var(--surface);
 }
 
 .turno {
@@ -68,8 +76,8 @@ li:hover {
 }
 
 button {
-    background: #c9a0ff;
-    color: #0d0d16;
+     background: var(--lila);
+    color: var(--bg);
     border: none;
     padding: 18px 36px;
     font-size: 20px;
@@ -79,7 +87,7 @@ button {
 }
 
 button:hover {
-    background: #b084f5;
+    background: var(--celeste);
     transform: scale(1.05);
 }
 
@@ -140,7 +148,7 @@ button:hover {
 .ph {
     width: 300px;
     height: 200px;
-    background: #1f1f2e;
+    background: var(--surface);
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -193,7 +201,7 @@ button:hover {
 
 li i {
     margin-right: 10px;
-    color: #c9a0ff;
+     color: var(--lila);
 }
 
 #topBtn {
@@ -205,8 +213,8 @@ li i {
     font-size: 18px;
     border: none;
     border-radius: 50%;
-    background: #c9a0ff;
-    color: #0d0d16;
+     background: var(--lila);
+    color: var(--bg);
     cursor: pointer;
     width: auto;
     height: auto;
@@ -214,14 +222,14 @@ li i {
 .footer {
     margin-top: 60px;
     padding: 30px;
-    background: #121220;
+    background: var(--surface);
     text-align: center;
 }
 
 .redes a {
     margin: 0 10px;
     font-size: 24px;
-    color: #c9a0ff;
+      color: var(--lila);
     text-decoration: none;
 }
 /* ===== NAVBAR RESPONSIVE ===== */
@@ -255,4 +263,27 @@ li i {
         width: 90%;
         font-size: 18px;
     }
+}
+
+.lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 2000;
+    color: white;
+}
+
+.lightbox img {
+    max-width: 80%;
+    max-height: 80%;
+    border-radius: 10px;
+}
+
+#lightboxText {
+    font-size: 28px;
+    color: var(--lila);
 }

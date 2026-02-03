@@ -23,3 +23,24 @@ ScrollReveal().reveal('.servicios, .galeria, .turno', {
     origin: 'bottom',
     interval: 200
 });
+
+function abrirLightbox(elemento) {
+    const lb = document.getElementById("lightbox");
+    const img = document.getElementById("lightboxImg");
+    const text = document.getElementById("lightboxText");
+
+    if (elemento.tagName === "IMG") {
+        img.src = elemento.src;
+        img.style.display = "block";
+        text.style.display = "none";
+    } else {
+        img.style.display = "none";
+        text.style.display = "block";
+    }
+
+    lb.style.display = "flex";
+}
+
+function cerrarLightbox() {
+    document.getElementById("lightbox").style.display = "none";
+}
