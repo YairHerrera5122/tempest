@@ -6,9 +6,7 @@
     --texto: #b8c1ec;
 }
 
-html {
-    scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 * {
     margin: 0;
@@ -18,10 +16,44 @@ html {
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-     background: var(--bg);
+    background: var(--bg);
     color: white;
 }
 
+/* ===== NAV ===== */
+.nav {
+    position: sticky;
+    top: 0;
+    background: #121220;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    z-index: 1000;
+}
+
+.logo {
+    color: var(--lila);
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.links {
+    display: flex;
+    gap: 20px;
+}
+
+.links a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.links a:hover {
+    color: var(--lila);
+}
+
+/* ===== HEADER ===== */
 header {
     text-align: center;
     padding: 80px 20px;
@@ -36,9 +68,10 @@ header h1 {
 header p {
     margin-top: 10px;
     font-size: 20px;
-   color: var(--texto);
+    color: var(--texto);
 }
 
+/* ===== SERVICIOS ===== */
 .servicios {
     padding: 60px 20px;
     text-align: center;
@@ -49,7 +82,7 @@ header p {
     margin-bottom: 40px;
 }
 
-ul {
+.servicios ul {
     display: flex;
     justify-content: center;
     gap: 30px;
@@ -57,67 +90,24 @@ ul {
     list-style: none;
 }
 
-li {
-     background: var(--surface);
+.servicios li {
+    background: var(--surface);
     padding: 25px 35px;
     border-radius: 10px;
     font-size: 20px;
-    transition: transform 0.3s, background 0.3s;
+    transition: transform 0.3s;
 }
 
-li:hover {
+.servicios li:hover {
     transform: translateY(-5px);
-     background: var(--surface);
 }
 
-.turno {
-    text-align: center;
-    padding: 60px 20px;
+.servicios li i {
+    margin-right: 10px;
+    color: var(--lila);
 }
 
-button {
-     background: var(--lila);
-    color: var(--bg);
-    border: none;
-    padding: 18px 36px;
-    font-size: 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
-}
-
-button:hover {
-    background: var(--celeste);
-    transform: scale(1.05);
-}
-
-/* ====== RESPONSIVE PARA CELULARES ====== */
-@media (max-width: 768px) {
-
-    header h1 {
-        font-size: 36px;
-    }
-
-    header p {
-        font-size: 16px;
-    }
-
-    ul {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    li {
-        width: 80%;
-        font-size: 18px;
-    }
-
-    .turno button {
-        width: 80%;
-        font-size: 18px;
-    }
-}
-
+/* ===== GALERIA ===== */
 .galeria {
     padding: 60px 20px;
     text-align: center;
@@ -135,75 +125,61 @@ button:hover {
     flex-wrap: wrap;
 }
 
-.imagenes img {
-    width: 300px;
-    border-radius: 10px;
-    transition: transform 0.3s;
-}
-
-.imagenes img:hover {
-    transform: scale(1.05);
-}
-
+.imagenes img,
 .ph {
     width: 300px;
     height: 200px;
-    background: var(--surface);
     border-radius: 10px;
+    object-fit: cover;
+}
+
+.ph {
+    background: var(--surface);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #b8c1ec;
-    font-size: 18px;
+    color: var(--texto);
     letter-spacing: 1px;
 }
 
-.nav {
-    position: sticky;
-    top: 0;
-    background: #121220;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    z-index: 1000;
-    flex-wrap: wrap;
+/* ===== TURNOS (FORM) ===== */
+#turnos {
+    text-align: center;
+    padding: 60px 20px;
 }
 
-.links {
+#formTurno {
+    max-width: 400px;
+    margin: 30px auto 0;
     display: flex;
+    flex-direction: column;
     gap: 15px;
 }
 
-.links a {
-    color: white;
-    text-decoration: none;
+#formTurno input,
+#formTurno select {
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
     font-size: 16px;
 }
 
-
-.logo {
-    color: #c9a0ff;
-    font-weight: bold;
-    font-size: 22px;
+#formTurno button {
+    padding: 14px;
+    border-radius: 8px;
+    border: none;
+    font-size: 18px;
+    background: var(--lila);
+    color: var(--bg);
+    cursor: pointer;
+    transition: 0.2s;
 }
 
-.links a {
-    color: white;
-    margin-left: 20px;
-    text-decoration: none;
-    font-size: 16px;
+#formTurno button:hover {
+    background: var(--celeste);
 }
 
-.links a:hover {
-    color: #c9a0ff;
-}
-
-li i {
-    margin-right: 10px;
-     color: var(--lila);
-}
-
+/* ===== BOTON VOLVER ARRIBA ===== */
 #topBtn {
     position: fixed;
     bottom: 20px;
@@ -211,14 +187,13 @@ li i {
     display: none;
     padding: 12px 16px;
     font-size: 18px;
-    border: none;
     border-radius: 50%;
-     background: var(--lila);
+    background: var(--lila);
     color: var(--bg);
     cursor: pointer;
-    width: auto;
-    height: auto;
 }
+
+/* ===== FOOTER ===== */
 .footer {
     margin-top: 60px;
     padding: 30px;
@@ -229,42 +204,11 @@ li i {
 .redes a {
     margin: 0 10px;
     font-size: 24px;
-      color: var(--lila);
+    color: var(--lila);
     text-decoration: none;
 }
-/* ===== NAVBAR RESPONSIVE ===== */
-@media (max-width: 768px) {
 
-    .nav {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .links {
-        flex-direction: column;
-        width: 100%;
-        margin-top: 10px;
-    }
-
-    .links a {
-        padding: 8px 0;
-        font-size: 18px;
-    }
-
-    header h1 {
-        font-size: 34px;
-    }
-
-    h2 {
-        font-size: 28px;
-    }
-
-    button {
-        width: 90%;
-        font-size: 18px;
-    }
-}
-
+/* ===== LIGHTBOX ===== */
 .lightbox {
     position: fixed;
     inset: 0;
@@ -286,4 +230,30 @@ li i {
 #lightboxText {
     font-size: 28px;
     color: var(--lila);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    header h1 { font-size: 34px; }
+    header p { font-size: 16px; }
+
+    .servicios ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .servicios li {
+        width: 85%;
+        font-size: 18px;
+    }
+
+    .links {
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    #formTurno button {
+        width: 100%;
+    }
 }
