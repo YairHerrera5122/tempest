@@ -12,7 +12,7 @@ window.addEventListener("scroll", () => {
 
 // ===== SCROLL REVEAL =====
 if (typeof ScrollReveal !== "undefined") {
-    ScrollReveal().reveal('.servicios, .galeria, #turno', {
+    ScrollReveal().reveal('.servicios, .galeria, #turnos', {
         distance: '50px',
         duration: 800,
         easing: 'ease-in-out',
@@ -27,8 +27,6 @@ function abrirLightbox(elemento) {
     const img = document.getElementById("lightboxImg");
     const text = document.getElementById("lightboxText");
 
-    if (!lb || !img || !text) return;
-
     if (elemento.tagName === "IMG") {
         img.src = elemento.src;
         img.style.display = "block";
@@ -42,23 +40,57 @@ function abrirLightbox(elemento) {
 }
 
 function cerrarLightbox() {
-    const lb = document.getElementById("lightbox");
-    if (lb) lb.style.display = "none";
+    document.getElementById("lightbox").style.display = "none";
 }
 
-// ===== FORM TURNOS (VALIDADO + WHATSAPP + EMAIL + GOOGLE CALENDAR) =====
+// ===== SUPABASE FUNCIONES =====
+async function turnoOcupado(fecha, hora) {
+    const { data } = await supabase
+        .from('turnos')
+        .select('*')
+        .eq('fecha', fecha)
+        .eq('hora', hora);
+
+    return data.length > 0;
+}
+
+async function guardarTurno(turno) {
+    await supabase.from('turnos').insert([turno]);
+}
+
+async function mostrarTurnos() {
+    const lista = document.getElementById("listaTurnos");
+    lista.innerHTML = "";
+
+    const { data } = await supabase
+        .from('turnos')
+        .select('*')
+        .order('fecha', { ascending: true })
+        .order('hora', { ascending: true });
+
+    data.forEach(t => {
+        const li = document.createElement("li");
+        li.textContent = `${t.fecha} ${t.hora} - ${t.nombre} (${t.servicio})`;
+        lista.appendChild(li);
+    });
+}
+
+// ===== FORM TURNOS =====
 const form = document.getElementById("formTurno");
 const fechaInput = document.getElementById("fecha");
 const horaInput = document.getElementById("hora");
 const calendarLink = document.getElementById("calendarLink");
 
-if (form && fechaInput && horaInput && calendarLink) {
+document.addEventListener("DOMContentLoaded", () => {
+    mostrarTurnos();
 
-    // Fecha mínima = hoy
     const hoy = new Date().toISOString().split("T")[0];
     fechaInput.min = hoy;
 
-    // No permitir domingos
+    horaInput.step = 3600;
+    horaInput.min = "09:00";
+    horaInput.max = "20:00";
+
     fechaInput.addEventListener("input", () => {
         const fechaSeleccionada = new Date(fechaInput.value);
         if (fechaSeleccionada.getDay() === 0) {
@@ -66,73 +98,49 @@ if (form && fechaInput && horaInput && calendarLink) {
             fechaInput.value = "";
         }
     });
+});
 
-    // Horarios
-    horaInput.step = 3600;
-    horaInput.min = "09:00";
-    horaInput.max = "20:00";
+form.addEventListener("submit", async function(e) {
+    e.preventDefault();
 
-    form.addEventListener("submit", function(e) {
-        e.preventDefault();
+    const nombre = document.getElementById("nombre").value.trim();
+    const servicio = document.getElementById("servicio").value;
+    const fecha = fechaInput.value;
+    const hora = horaInput.value;
 
-        const nombre = document.getElementById("nombre").value.trim();
-        const servicio = document.getElementById("servicio").value;
-        const fecha = fechaInput.value;
-        const hora = horaInput.value;
+    if (await turnoOcupado(fecha, hora)) {
+        alert("Ese horario ya está reservado 💈");
+        return;
+    }
 
-        if (!nombre || !servicio || !fecha || !hora) {
-            alert("Por favor completá todos los campos.");
-            return;
-        }
+    const turno = { nombre, servicio, fecha, hora };
+    await guardarTurno(turno);
+    await mostrarTurnos();
 
-        const ahora = new Date();
-        const fechaTurno = new Date(`${fecha}T${hora}`);
+    // Google Calendar
+    const horaNumero = parseInt(hora.split(":")[0]);
+    const inicio = `${fecha}T${hora}:00`;
+    const finHora = String(horaNumero + 1).padStart(2, '0') + ":00";
+    const fin = `${fecha}T${finHora}:00`;
 
-        if (fechaTurno < ahora) {
-            alert("No podés reservar un turno en el pasado.");
-            return;
-        }
-
-        const horaNumero = parseInt(hora.split(":")[0]);
-        if (horaNumero < 9 || horaNumero > 20) {
-            alert("Los turnos son entre las 09:00 y las 20:00 hs.");
-            return;
-        }
-
-        // ===== GOOGLE CALENDAR =====
-        const inicio = `${fecha}T${hora}:00`;
-        const finHora = String(horaNumero + 1).padStart(2, '0') + ":00";
-        const fin = `${fecha}T${finHora}:00`;
-
-        const calendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE
+    const calendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE
 &text=Turno Tempest - ${servicio}
 &dates=${inicio.replace(/[-:]/g, '')}/${fin.replace(/[-:]/g, '')}
 &details=Cliente: ${nombre}
 &location=Tempest Barbería`.replace(/\n/g, '');
 
-        // Mostrar link en la página
-        calendarLink.innerHTML = `
-            <strong>Agregar a Google Calendar:</strong>
-            <a href="${calendarUrl}" target="_blank">Guardar evento</a>
-        `;
+    calendarLink.innerHTML =
+        `<a href="${calendarUrl}" target="_blank">📅 Agregar a Google Calendar</a>`;
 
-        // ===== MENSAJE =====
-        const mensaje = `Hola Lucca! Quiero reservar un turno en Tempest 💈
+    // WhatsApp
+    const mensaje = `Hola Lucca! Quiero reservar un turno en Tempest 💈
 
 Nombre: ${nombre}
 Servicio: ${servicio}
 Fecha: ${fecha}
-Hora: ${hora}
+Hora: ${hora}`;
 
-Agendar en Google Calendar:
-${calendarUrl}`;
+    window.open(`https://wa.me/5492975440834?text=${encodeURIComponent(mensaje)}`, "_blank");
 
-        // WhatsApp
-        const wa = `https://wa.me/5492975440834?text=${encodeURIComponent(mensaje)}`;
-        window.open(wa, "_blank");
-
-        // Email
-        const mail = `mailto:1.luccaherrera@gmail.com?subject=Nuevo turno Tempest&body=${encodeURIComponent(mensaje)}`;
-        window.open(mail, "_blank");
-    });
-}
+    form.reset();
+});

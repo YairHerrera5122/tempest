@@ -39,16 +39,9 @@
     <section id="galeria" class="galeria">
         <h2>Nuestros trabajos</h2>
         <div class="imagenes">
-
-            <!-- PLACEHOLDERS -->
             <div class="ph" onclick="abrirLightbox(this)">Próximamente</div>
             <div class="ph" onclick="abrirLightbox(this)">Próximamente</div>
             <div class="ph" onclick="abrirLightbox(this)">Próximamente</div>
-
-            <!-- IMÁGENES REALES
-            <img src="assets/cortes/corte1.jpg" onclick="abrirLightbox(this)" alt="Corte 1">
-            -->
-
         </div>
     </section>
 
@@ -72,9 +65,9 @@
             <button type="submit">Enviar turno</button>
         </form>
 
-        <!-- LINK GOOGLE CALENDAR (lo llena JS) -->
         <p id="calendarLink" style="margin-top:20px;"></p>
-
+        <h3 style="margin-top:30px;">Turnos reservados</h3>
+        <ul id="listaTurnos"></ul>
     </section>
 
     <button id="topBtn" onclick="volverArriba()">⬆</button>
@@ -91,6 +84,17 @@
         <img id="lightboxImg" src="" alt="">
         <div id="lightboxText">Próximamente</div>
     </div>
+
+    <!-- ✅ SUPABASE V2 CORRECTO -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const { createClient } = supabase;
+
+        const SUPABASE_URL = "https://avdlzmovgnzrksvtcpqs.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_HkQGFvP940_WnGA5ddf9gA_4prU4Qvd";
+
+        window.supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    </script>
 
     <script src="script.js"></script>
 
