@@ -4,33 +4,22 @@
 <meta charset="UTF-8">
 <title>Agenda Tempest</title>
 <link rel="stylesheet" href="styles.css">
-<style>
-body { padding:40px; background:#111; color:white; font-family:sans-serif; }
-h1 { margin-bottom:20px; }
-table { width:100%; border-collapse: collapse; }
-th, td { padding:12px; border-bottom:1px solid #333; text-align:left; }
-th { background:#1b1b1b; }
-tr:hover { background:#222; }
-button { padding:6px 10px; cursor:pointer; }
-</style>
 </head>
 
+<body style="padding:40px; background:#111; color:white; font-family:sans-serif;">
+
 <script>
-const password = "tempest2026"; // podés cambiarla
-
+const password = "tempest2026";
 const ingreso = prompt("Contraseña de administrador:");
-
 if (ingreso !== password) {
   alert("Acceso denegado");
   window.location.href = "index.html";
 }
 </script>
 
-<body>
-
 <h1>📋 Agenda Tempest</h1>
 
-<table>
+<table style="width:100%; border-collapse: collapse;">
 <thead>
 <tr>
 <th>Fecha</th>
@@ -47,6 +36,7 @@ if (ingreso !== password) {
 <script>
 const SUPABASE_URL = "https://avdlzmovgnzrksvtcpqs.supabase.co";
 const SUPABASE_KEY = "sb_publishable_HkQGFvP940_WnGA5ddf9gA_4prU4Qvd";
+
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 async function cargarTurnos() {
