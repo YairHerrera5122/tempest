@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -22,8 +22,9 @@
     </nav>
 
     <header>
-        <h1>Tempest Barbería</h1>
-        <p>Tu estilo, nuestra pasión</p>
+         <h1>Tempest Barbería</h1>
+         <p>Tu estilo, nuestra pasión</p>
+         <a href="#turnos" class="cta">Reservar turno</a>
     </header>
 
     <section id="servicios" class="servicios">
@@ -60,7 +61,11 @@
             </select>
 
             <input type="date" id="fecha" required>
-            <input type="time" id="hora" required>
+
+            <!-- 🔥 CAMBIO IMPORTANTE -->
+            <select id="hora" required>
+                <option value="">Elegí un horario</option>
+            </select>
 
             <button type="submit">Enviar turno</button>
         </form>
@@ -85,7 +90,7 @@
         <div id="lightboxText">Próximamente</div>
     </div>
 
-    <!-- ✅ SUPABASE V2 CORRECTO -->
+    <!-- ✅ SUPABASE V2 -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const { createClient } = supabase;
