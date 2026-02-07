@@ -2,57 +2,36 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Agenda Tempest</title>
-
+<title>Admin Tempest</title>
 <link rel="stylesheet" href="styles.css">
-
-<style>
-body{
-  padding:40px;
-  background:#111;
-  color:white;
-  font-family:sans-serif;
-}
-h1{ margin-bottom:20px; }
-
-table{
-  width:100%;
-  border-collapse: collapse;
-}
-th,td{
-  padding:12px;
-  border-bottom:1px solid #333;
-  text-align:left;
-}
-th{ background:#1b1b1b; }
-
-tr:hover{ background:#222; }
-
-button{
-  padding:6px 10px;
-  cursor:pointer;
-  background:#ff4d4d;
-  color:white;
-  border:none;
-}
-</style>
 </head>
 <body>
 
-<h1>📋 Agenda Tempest</h1>
+<h1>🔐 Panel Admin Tempest</h1>
 
-<table>
-<thead>
-<tr>
-<th>Fecha</th>
-<th>Hora</th>
-<th>Cliente</th>
-<th>Servicio</th>
-<th>Eliminar</th>
-</tr>
-</thead>
-<tbody id="tablaTurnos"></tbody>
-</table>
+<div id="loginBox">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Contraseña">
+    <button onclick="login()">Ingresar</button>
+</div>
+
+<div id="panel" style="display:none;">
+    <button onclick="logout()">Cerrar sesión</button>
+
+    <h2>Turnos</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Cliente</th>
+                <th>Servicio</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody id="tablaTurnos"></tbody>
+    </table>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="admin.js"></script>
