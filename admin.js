@@ -1,60 +1,70 @@
-// ===== PROTECCIÓN CON CONTRASEÑA =====
-const password = prompt("Contraseña de administrador:");
-if (password !== "tempest2026") {
-  document.body.innerHTML = "<h1>Acceso denegado</h1>";
-  throw new Error("No autorizado");
-}
-
-// ===== SUPABASE =====
 const SUPABASE_URL = "https://avdlzmovgnzrksvtcpqs.supabase.co";
-const SUPABASE_KEY = "sb_publishable_HkQGFvP940_WnGA5ddf9gA_4prU4Qvd";
+const SUPABASE_KEY = "TU_PUBLIC_KEY";
 
 const { createClient } = supabase;
-const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
+const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ===== CARGAR TURNOS =====
+// ===== LOGIN =====
+async function login() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const { error } = await sb.auth.signInWithPassword({
+        email,
+        password,
+    });
+
+    if (error) {
+        alert("Datos incorrectos");
+    } else {
+        iniciarPanel();
+    }
+}
+
+async function logout() {
+    await sb.auth.signOut();
+    location.reload();
+}
+
+// ===== PROTEGER PANEL =====
+async function iniciarPanel() {
+    const { data } = await sb.auth.getSession();
+
+    if (!data.session) return;
+
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("panel").style.display = "block";
+
+    cargarTurnos();
+}
+
+iniciarPanel();
+
+// ===== TURNOS =====
 async function cargarTurnos() {
-  const { data, error } = await supabaseClient
-    .from("turnos")
-    .select("*")
-    .order("fecha", { ascending: true })
-    .order("hora", { ascending: true });
+    const { data } = await sb
+        .from("turnos")
+        .select("*")
+        .order("fecha", { ascending: true })
+        .order("hora", { ascending: true });
 
-  if (error) {
-    console.error(error);
-    return;
-  }
+    const tabla = document.getElementById("tablaTurnos");
+    tabla.innerHTML = "";
 
-  const tabla = document.getElementById("tablaTurnos");
-  tabla.innerHTML = "";
-
-  data.forEach(turno => {
-    const fila = document.createElement("tr");
-
-    fila.innerHTML = `
-      <td>${turno.fecha}</td>
-      <td>${turno.hora}</td>
-      <td>${turno.nombre}</td>
-      <td>${turno.servicio}</td>
-      <td><button onclick="eliminarTurno('${turno.id}')">🗑</button></td>
-    `;
-
-    tabla.appendChild(fila);
-  });
+    data.forEach(t => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${t.fecha}</td>
+            <td>${t.hora}</td>
+            <td>${t.nombre}</td>
+            <td>${t.servicio}</td>
+            <td><button onclick="eliminar('${t.id}')">❌</button></td>
+        `;
+        tabla.appendChild(tr);
+    });
 }
 
-// ===== ELIMINAR TURNO =====
-async function eliminarTurno(id) {
-  const confirmar = confirm("¿Eliminar este turno?");
-  if (!confirmar) return;
-
-  await supabaseClient
-    .from("turnos")
-    .delete()
-    .eq("id", id);
-
-  cargarTurnos();
+async function eliminar(id) {
+    await sb.from("turnos").delete().eq("id", id);
+    cargarTurnos();
 }
-
-// ===== INICIAR =====
-cargarTurnos();
