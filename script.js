@@ -44,16 +44,6 @@ function cerrarLightbox() {
 }
 
 // ===== SUPABASE =====
-async function turnoOcupado(fecha, hora) {
-    const { data } = await supabase
-        .from('turnos')
-        .select('*')
-        .eq('fecha', fecha)
-        .eq('hora', hora);
-
-    return data.length > 0;
-}
-
 async function guardarTurno(turno) {
     await supabase.from('turnos').insert([turno]);
 }
@@ -87,19 +77,28 @@ async function mostrarTurnos() {
 // ===== HORARIOS INTELIGENTES =====
 async function cargarHorariosDisponibles(fecha) {
     const horaSelect = document.getElementById("hora");
-    horaSelect.innerHTML = '<option value="">Elegí un horario</option>';
+    horaSelect.innerHTML = '<option value="">Cargando horarios...</option>';
 
-    const turnosOcupados = await obtenerTurnosPorFecha(fecha);
+    const ocupados = await obtenerTurnosPorFecha(fecha);
+
+    horaSelect.innerHTML = '<option value="">Seleccioná un horario</option>';
+
+    let hayLibres = false;
 
     for (let h = 9; h <= 20; h++) {
         const hora = `${String(h).padStart(2, '0')}:00`;
 
-        if (!turnosOcupados.includes(hora)) {
+        if (!ocupados.includes(hora)) {
             const option = document.createElement("option");
             option.value = hora;
             option.textContent = hora;
             horaSelect.appendChild(option);
+            hayLibres = true;
         }
+    }
+
+    if (!hayLibres) {
+        horaSelect.innerHTML = '<option value="">No hay horarios disponibles</option>';
     }
 }
 
@@ -142,14 +141,10 @@ form.addEventListener("submit", async function(e) {
         return;
     }
 
-    if (await turnoOcupado(fecha, hora)) {
-        alert("Ese horario ya está reservado 💈");
-        return;
-    }
-
     const turno = { nombre, servicio, fecha, hora };
     await guardarTurno(turno);
     await mostrarTurnos();
+    await cargarHorariosDisponibles(fecha);
 
     // Google Calendar
     const horaNumero = parseInt(hora.split(":")[0]);
