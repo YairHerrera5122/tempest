@@ -5,110 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tempest Barbería</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
-    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
 
-    <!-- NAV -->
-    <nav class="nav">
-        <div class="logo">Tempest</div>
-        <div class="links">
-            <a href="#servicios">Servicios</a>
-            <a href="#galeria">Trabajos</a>
-            <a href="#turnos">Turnos</a>
-            <a href="admin.html" class="admin-btn">🔒 Admin</a>
-        </div>
-    </nav>
-
-    <!-- HEADER -->
-    <header>
-         <h1>Tempest Barbería</h1>
-         <p>Tu estilo, nuestra pasión</p>
-         <a href="#turnos" class="cta">Reservar turno</a>
-    </header>
-
-    <!-- SERVICIOS DINÁMICOS DESDE SUPABASE -->
-    <section id="servicios" class="servicios">
-        <h2>Servicios y precios</h2>
-        <ul id="listaServicios"></ul>
-    </section>
-
-    <!-- GALERÍA -->
-    <section id="galeria" class="galeria">
-        <h2>Nuestros trabajos</h2>
-        <div class="imagenes">
-            <div class="ph" onclick="abrirLightbox(this)">Próximamente</div>
-            <div class="ph" onclick="abrirLightbox(this)">Próximamente</div>
-            <div class="ph" onclick="abrirLightbox(this)">Próximamente</div>
-        </div>
-    </section>
-
-    <!-- TURNOS -->
-    <section id="turnos" class="turnos">
-        <h2>Reservar turno</h2>
-
-        <form id="formTurno">
-            <input type="text" id="nombre" placeholder="Tu nombre" required>
-
-            <!-- IMPORTANTE: estos textos deben coincidir con los de la tabla precios -->
-            <select id="servicio" required>
-                <option value="">Elegí un servicio</option>
-                <option>Corte clásico</option>
-                <option>Fade / Degradado</option>
-                <option>Barba</option>
-                <option>Combo Corte + Barba</option>
-            </select>
-
-            <input type="date" id="fecha" required>
-
-            <select id="hora" required>
-                <option value="">Elegí un horario</option>
-            </select>
-
-            <button type="submit">Enviar turno</button>
-
-            <p style="text-align:center; font-size:13px; color:#aaa;">
-                💈 Horarios de atención: 9:00 a 20:00 — Domingos cerrado
-            </p>
-        </form>
-
-        <p id="calendarLink" style="margin-top:20px;"></p>
-    </section>
-
-    <!-- BOTÓN ARRIBA -->
-    <button id="topBtn" onclick="volverArriba()">⬆</button>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-        <p>© 2026 Tempest Barbería</p>
-        <div class="redes">
-            <a href="#"><i class="fa-brands fa-instagram"></i></a>
-            <a href="https://wa.me/5492975440834"><i class="fa-brands fa-whatsapp"></i></a>
-        </div>
-    </footer>
-
-    <!-- LIGHTBOX -->
-    <div id="lightbox" class="lightbox" onclick="cerrarLightbox()">
-        <img id="lightboxImg" src="" alt="">
-        <div id="lightboxText">Próximamente</div>
+<nav class="nav">
+    <div class="logo">Tempest</div>
+    <div class="links">
+        <a href="#servicios">Servicios</a>
+        <a href="#turnos">Turnos</a>
+        <a href="admin.html">Admin</a>
     </div>
+</nav>
 
-    <!-- SUPABASE -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        const { createClient } = supabase;
+<header>
+    <h1>Tempest Barbería</h1>
+    <a href="#turnos" class="cta">Reservar turno</a>
+</header>
 
-        const SUPABASE_URL = "https://avdlzmovgnzrksvtcpqs.supabase.co";
-        const SUPABASE_KEY = "sb_publishable_HkQGFvP940_WnGA5ddf9gA_4prU4Qvd";
+<section id="servicios">
+    <h2>Servicios y precios</h2>
+    <ul id="listaServicios"></ul>
+</section>
 
-        window.supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-    </script>
+<section id="turnos">
+    <h2>Reservar turno</h2>
 
-    <!-- SCRIPT PRINCIPAL -->
-    <script src="script.js"></script>
+    <form id="formTurno">
+        <input type="text" id="nombre" placeholder="Tu nombre" required>
 
+        <select id="servicio" required></select>
+
+        <input type="date" id="fecha" required>
+
+        <select id="hora" required></select>
+
+        <button type="submit">Reservar</button>
+    </form>
+
+    <p id="calendarLink"></p>
+</section>
+
+<button onclick="volverArriba()" id="topBtn">⬆</button>
+
+<script>
+const SUPABASE_URL = "https://avdlzmovgnzrksvtcpqs.supabase.co";
+const SUPABASE_KEY = "sb_publishable_HkQGFvP940_WnGA5ddf9gA_4prU4Qvd";
+window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+</script>
+
+<script src="script.js"></script>
 </body>
 </html>
