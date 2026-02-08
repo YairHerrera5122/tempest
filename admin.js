@@ -1,5 +1,9 @@
 const SUPABASE_URL = "https://avdlzmovgnzrksvtcpqs.supabase.co";
 const SUPABASE_KEY = "sb_publishable_HkQGFvP940_WnGA5ddf9gA_4prU4Qvd";
+
+const { createClient } = supabase;
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
+
 const lista = document.getElementById("listaTurnos");
 const loginBox = document.getElementById("loginBox");
 const adminPanel = document.getElementById("adminPanel");
@@ -9,17 +13,20 @@ async function login() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  const { error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password,
+  });
 
   if (error) {
-    alert("Error de login");
+    alert(error.message);
   } else {
     iniciarAdmin();
   }
 }
 
 async function logout() {
-  await supabase.auth.signOut();
+  await supabaseClient.auth.signOut();
   location.reload();
 }
 
@@ -34,13 +41,13 @@ async function iniciarAdmin() {
 async function cargarTurnos() {
   lista.innerHTML = "";
 
-  const { data } = await supabase
+  const { data } = await supabaseClient
     .from("turnos")
     .select("*")
     .order("fecha", { ascending: true })
     .order("hora", { ascending: true });
 
-  data.forEach(turno => {
+  data.forEach((turno) => {
     const li = document.createElement("li");
 
     li.innerHTML = `
@@ -59,25 +66,17 @@ async function cargarTurnos() {
 
 // ===== CAMBIAR ESTADO =====
 async function cambiarEstado(id, estado) {
-  await supabase
-    .from("turnos")
-    .update({ estado })
-    .eq("id", id);
-
+  await supabaseClient.from("turnos").update({ estado }).eq("id", id);
   cargarTurnos();
 }
 
 // ===== BORRAR =====
 async function borrarTurno(id) {
-  await supabase
-    .from("turnos")
-    .delete()
-    .eq("id", id);
-
+  await supabaseClient.from("turnos").delete().eq("id", id);
   cargarTurnos();
 }
 
 // ===== SESIÓN ACTIVA =====
-supabase.auth.getSession().then(({ data }) => {
+supabaseClient.auth.getSession().then(({ data }) => {
   if (data.session) iniciarAdmin();
 });
