@@ -1,40 +1,34 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Admin Tempest</title>
-<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Tempest</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
 
-<h1>🔐 Panel Admin Tempest</h1>
+<body style="background:#111;color:white;font-family:sans-serif;padding:40px">
 
-<div id="loginBox">
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Contraseña">
+  <h1>🔒 Panel Admin Tempest</h1>
+
+  <!-- LOGIN -->
+  <div id="loginBox">
+    <h2>Iniciar sesión</h2>
+    <input id="email" type="email" placeholder="Email"><br><br>
+    <input id="password" type="password" placeholder="Contraseña"><br><br>
     <button onclick="login()">Ingresar</button>
-</div>
+  </div>
 
-<div id="panel" style="display:none;">
+  <!-- PANEL ADMIN -->
+  <div id="adminPanel" style="display:none;">
     <button onclick="logout()">Cerrar sesión</button>
-
     <h2>Turnos</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Fecha</th>
-                <th>Hora</th>
-                <th>Cliente</th>
-                <th>Servicio</th>
-                <th>Eliminar</th>
-            </tr>
-        </thead>
-        <tbody id="tablaTurnos"></tbody>
-    </table>
-</div>
+    <ul id="listaTurnos"></ul>
+  </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="admin.js"></script>
+  <!-- SUPABASE -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="admin.js"></script>
 
 </body>
 </html>
