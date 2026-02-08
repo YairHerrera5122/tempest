@@ -1,3 +1,10 @@
+// ===== SUPABASE =====
+const SUPABASE_URL = "https://avdlzmovgnzrksvtcpqs.supabase.co";
+const SUPABASE_KEY = "sb_publishable_HkQGFvP940_WnGA5ddf9gA_4prU4Qvd";
+
+const { createClient } = supabase;
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
+
 // ===== BOTÓN VOLVER ARRIBA =====
 function volverArriba() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -9,17 +16,6 @@ window.addEventListener("scroll", () => {
         btn.style.display = document.documentElement.scrollTop > 300 ? "block" : "none";
     }
 });
-
-// ===== SCROLL REVEAL =====
-if (typeof ScrollReveal !== "undefined") {
-    ScrollReveal().reveal('.servicios, .galeria, #turnos', {
-        distance: '50px',
-        duration: 800,
-        easing: 'ease-in-out',
-        origin: 'bottom',
-        interval: 200
-    });
-}
 
 // ===== LIGHTBOX =====
 function abrirLightbox(elemento) {
@@ -43,43 +39,41 @@ function cerrarLightbox() {
     document.getElementById("lightbox").style.display = "none";
 }
 
-// ===== SUPABASE =====
-async function guardarTurno(turno) {
-    await supabase.from('turnos').insert([turno]);
-}
+// ===== PRECIOS DINÁMICOS =====
+async function cargarPrecios() {
+    const lista = document.getElementById("listaServicios");
 
-async function obtenerTurnosPorFecha(fecha) {
-    const { data } = await supabase
-        .from('turnos')
-        .select('hora')
-        .eq('fecha', fecha);
+    const { data } = await supabaseClient
+        .from("precios")
+        .select("*")
+        .order("id", { ascending: true });
 
-    return data.map(t => t.hora);
-}
-
-async function mostrarTurnos() {
-    const lista = document.getElementById("listaTurnos");
     lista.innerHTML = "";
 
-    const { data } = await supabase
-        .from('turnos')
-        .select('*')
-        .order('fecha', { ascending: true })
-        .order('hora', { ascending: true });
-
-    data.forEach(t => {
+    data.forEach(p => {
         const li = document.createElement("li");
-        li.textContent = `${t.fecha} ${t.hora} - ${t.nombre} (${t.servicio})`;
+        li.innerHTML = `<b>${p.servicio}</b><br>$${p.precio}`;
         lista.appendChild(li);
     });
 }
 
-// ===== HORARIOS INTELIGENTES =====
+// ===== TURNOS OCUPADOS =====
+async function obtenerTurnosOcupados(fecha) {
+    const { data } = await supabaseClient
+        .from("turnos")
+        .select("hora")
+        .eq("fecha", fecha)
+        .neq("estado", "cancelado"); // solo bloquea los reales
+
+    return data.map(t => t.hora);
+}
+
+// ===== HORARIOS INTELIGENTES REALES =====
 async function cargarHorariosDisponibles(fecha) {
     const horaSelect = document.getElementById("hora");
-    horaSelect.innerHTML = '<option value="">Cargando horarios...</option>';
+    horaSelect.innerHTML = '<option value="">Cargando...</option>';
 
-    const ocupados = await obtenerTurnosPorFecha(fecha);
+    const ocupados = await obtenerTurnosOcupados(fecha);
 
     horaSelect.innerHTML = '<option value="">Seleccioná un horario</option>';
 
@@ -109,7 +103,7 @@ const horaSelect = document.getElementById("hora");
 const calendarLink = document.getElementById("calendarLink");
 
 document.addEventListener("DOMContentLoaded", () => {
-    mostrarTurnos();
+    cargarPrecios();
 
     const hoy = new Date().toISOString().split("T")[0];
     fechaInput.min = hoy;
@@ -141,27 +135,34 @@ form.addEventListener("submit", async function(e) {
         return;
     }
 
-    const turno = { nombre, servicio, fecha, hora };
-    await guardarTurno(turno);
-    await mostrarTurnos();
+    // ===== GUARDAR TURNO =====
+    await supabaseClient.from("turnos").insert([{
+        nombre,
+        servicio,
+        fecha,
+        hora,
+        estado: "pendiente"
+    }]);
+
     await cargarHorariosDisponibles(fecha);
 
-    // Google Calendar
+    // ===== GOOGLE CALENDAR (ARREGLADO) =====
     const horaNumero = parseInt(hora.split(":")[0]);
     const inicio = `${fecha}T${hora}:00`;
     const finHora = String(horaNumero + 1).padStart(2, '0') + ":00";
     const fin = `${fecha}T${finHora}:00`;
 
-    const calendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE
-&text=Turno Tempest - ${servicio}
-&dates=${inicio.replace(/[-:]/g, '')}/${fin.replace(/[-:]/g, '')}
-&details=Cliente: ${nombre}
-&location=Tempest Barbería`.replace(/\n/g, '');
+    const calendarUrl =
+        `https://www.google.com/calendar/render?action=TEMPLATE` +
+        `&text=Turno Tempest - ${servicio}` +
+        `&dates=${inicio.replace(/[-:]/g, '')}/${fin.replace(/[-:]/g, '')}` +
+        `&details=Cliente: ${nombre}` +
+        `&location=Tempest Barbería`;
 
     calendarLink.innerHTML =
         `<a href="${calendarUrl}" target="_blank">📅 Agregar a Google Calendar</a>`;
 
-    // WhatsApp
+    // ===== WHATSAPP (ARREGLADO) =====
     const mensaje = `Hola Lucca! Quiero reservar un turno en Tempest 💈
 
 Nombre: ${nombre}

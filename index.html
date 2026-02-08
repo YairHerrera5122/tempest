@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -18,6 +18,7 @@
             <a href="#servicios">Servicios</a>
             <a href="#galeria">Trabajos</a>
             <a href="#turnos">Turnos</a>
+            <a href="admin.html" class="admin-btn">Admin</a>
         </div>
     </nav>
 
@@ -27,14 +28,10 @@
          <a href="#turnos" class="cta">Reservar turno</a>
     </header>
 
+    <!-- SERVICIOS DINÁMICOS -->
     <section id="servicios" class="servicios">
-        <h2>Servicios</h2>
-        <ul>
-            <li><i class="fa-solid fa-scissors"></i> Corte clásico</li>
-            <li><i class="fa-solid fa-fire"></i> Fade / Degradado</li>
-            <li><i class="fa-solid fa-user"></i> Barba</li>
-            <li><i class="fa-solid fa-star"></i> Corte + Barba</li>
-        </ul>
+        <h2>Servicios y precios</h2>
+        <ul id="listaServicios"></ul>
     </section>
 
     <section id="galeria" class="galeria">
@@ -55,30 +52,25 @@
             <select id="servicio" required>
                 <option value="">Elegí un servicio</option>
                 <option>Corte clásico</option>
-                <option>Fade</option>
+                <option>Fade / Degradado</option>
                 <option>Barba</option>
                 <option>Combo Corte + Barba</option>
             </select>
 
             <input type="date" id="fecha" required>
 
-            <!-- 🔥 CAMBIO IMPORTANTE -->
             <select id="hora" required>
                 <option value="">Elegí un horario</option>
             </select>
 
             <button type="submit">Enviar turno</button>
+
             <p style="text-align:center; font-size:13px; color:#aaa;">
                 💈 Horarios de atención: 9:00 a 20:00 — Domingos cerrado
             </p>
-
         </form>
 
         <p id="calendarLink" style="margin-top:20px;"></p>
-       
-             <!-- AGENDA DE TURNOS PUBLICA -->
-        <!-- <h3 style="margin-top:30px;">Turnos reservados</h3>
-        <ul id="listaTurnos"></ul> -->
     </section>
 
     <button id="topBtn" onclick="volverArriba()">⬆</button>
@@ -96,7 +88,7 @@
         <div id="lightboxText">Próximamente</div>
     </div>
 
-    <!-- ✅ SUPABASE V2 -->
+    <!-- SUPABASE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const { createClient } = supabase;

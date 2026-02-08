@@ -32,7 +32,7 @@ body{
     font-size:24px;
     font-weight:bold;
     letter-spacing:2px;
-    color:#a78bfa; /* lila */
+    color:#a78bfa;
 }
 
 .links a{
@@ -44,7 +44,7 @@ body{
 }
 
 .links a:hover{
-    color:#67e8f9; /* celeste */
+    color:#67e8f9;
 }
 
 /* ===== HEADER ===== */
@@ -101,11 +101,6 @@ h2{
     font-size:18px;
 }
 
-.servicios li:hover{
-    transform:translateY(-5px);
-    border-color:#a78bfa;
-}
-
 /* ===== GALERIA ===== */
 .imagenes{
     display:grid;
@@ -123,10 +118,6 @@ h2{
     cursor:pointer;
     transition:0.3s;
     border:1px solid #222;
-}
-
-.ph:hover{
-    background:#273449;
 }
 
 /* ===== FORM TURNOS ===== */
@@ -162,12 +153,69 @@ form button:hover{
     background:#67e8f9;
 }
 
-/* ===== LISTA TURNOS ===== */
+/* ===== BOTONES GENERALES ===== */
+button{
+    padding:8px 14px;
+    border-radius:8px;
+    border:none;
+    cursor:pointer;
+    font-weight:bold;
+    background:#a78bfa;
+    color:black;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#67e8f9;
+}
+
+/* ===== LISTA TURNOS (ADMIN) ===== */
 #listaTurnos{
     margin-top:20px;
     list-style:none;
+}
+
+.cardTurno{
+    background:#111827;
+    padding:20px;
+    border-radius:12px;
+    border:1px solid #1f2937;
+    margin-bottom:15px;
+}
+
+/* ===== PANEL PRECIOS (ADMIN) ===== */
+#preciosBox{
+    margin-top:40px;
+    background:#0f172a;
+    padding:20px;
+    border-radius:12px;
+    border:1px solid #1f2937;
+}
+
+#preciosBox input{
+    padding:8px;
+    border-radius:6px;
+    border:none;
+    background:#1f2937;
+    color:white;
+    margin-left:10px;
+    width:100px;
+}
+
+/* ===== LOGIN ADMIN ===== */
+#loginBox{
+    max-width:350px;
+    margin:120px auto;
+    background:#111827;
+    padding:30px;
+    border-radius:12px;
+    border:1px solid #1f2937;
     text-align:center;
-    color:#ccc;
+}
+
+#loginBox input{
+    width:100%;
+    margin-bottom:10px;
 }
 
 /* ===== FOOTER ===== */
@@ -176,25 +224,6 @@ form button:hover{
     text-align:center;
     background:#0a0a0a;
     border-top:1px solid #222;
-}
-
-.redes a{
-    color:#a78bfa;
-    font-size:22px;
-    margin:0 10px;
-}
-
-/* ===== BOTON ARRIBA ===== */
-#topBtn{
-    position:fixed;
-    bottom:30px;
-    right:30px;
-    padding:12px 15px;
-    border:none;
-    border-radius:50%;
-    background:#67e8f9;
-    cursor:pointer;
-    display:none;
 }
 
 /* ===== LIGHTBOX ===== */
@@ -211,19 +240,4 @@ form button:hover{
 .lightbox img{
     max-width:80%;
     border-radius:10px;
-}
-
-.cta{
-    margin-top:25px;
-    padding:14px 28px;
-    background:#67e8f9;
-    color:black;
-    text-decoration:none;
-    font-weight:bold;
-    border-radius:8px;
-    transition:0.3s;
-}
-
-.cta:hover{
-    background:#a78bfa;
 }

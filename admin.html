@@ -4,30 +4,65 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Tempest</title>
+
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
-<body style="background:#596cda;color:rgb(213, 118, 236);font-family:sans-serif;padding:40px">
+<body class="admin-body">
 
-  <h1>🔒 Panel Admin Tempest</h1>
+  <nav class="nav">
+      <div class="logo">Tempest Admin</div>
+      <div class="links">
+          <a href="index.html">Volver a la web</a>
+      </div>
+  </nav>
+
+  <header class="admin-header">
+      <h1>🔒 Panel de Administración</h1>
+  </header>
 
   <!-- LOGIN -->
-  <div id="loginBox">
-    <h2>Iniciar sesión</h2>
-    <input id="email" type="email" placeholder="Email"><br><br>
-    <input id="password" type="password" placeholder="Contraseña"><br><br>
-    <button onclick="login()">Ingresar</button>
-  </div>
+  <section id="loginBox" class="admin-card">
+      <h2>Iniciar sesión</h2>
+      <input id="email" type="email" placeholder="Email">
+      <input id="password" type="password" placeholder="Contraseña">
+      <button onclick="login()" class="cta">Ingresar</button>
+  </section>
 
-  <!-- PANEL ADMIN -->
-  <div id="adminPanel" style="display:none;">
-    <button onclick="logout()">Cerrar sesión</button>
-    <h2>Turnos</h2>
-    <ul id="listaTurnos"></ul>
-  </div>
+  <!-- PANEL -->
+  <section id="adminPanel" style="display:none;">
+
+      <div class="admin-top">
+          <button onclick="logout()" class="cta">Cerrar sesión</button>
+      </div>
+
+      <!-- TURNOS -->
+      <div class="admin-card">
+          <h2>📅 Turnos</h2>
+          <ul id="listaTurnos" class="turnos-admin"></ul>
+      </div>
+
+      <!-- PRECIOS -->
+      <div class="admin-card">
+          <h2>💲 Precios de servicios</h2>
+          <div id="listaPrecios"></div>
+          <button onclick="guardarPrecios()" class="cta">Guardar cambios</button>
+      </div>
+
+  </section>
 
   <!-- SUPABASE -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+      const { createClient } = supabase;
+
+      const SUPABASE_URL = "https://avdlzmovgnzrksvtcpqs.supabase.co";
+      const SUPABASE_KEY = "sb_publishable_HkQGFvP940_WnGA5ddf9gA_4prU4Qvd";
+
+      window.supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+  </script>
+
   <script src="admin.js"></script>
 
 </body>
