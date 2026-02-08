@@ -1,14 +1,15 @@
+// ===== BOTÓN VOLVER ARRIBA =====
+function volverArriba() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+
 // ===== SUPABASE =====
 const SUPABASE_URL = "https://avdlzmovgnzrksvtcpqs.supabase.co";
 const SUPABASE_KEY = "sb_publishable_HkQGFvP940_WnGA5ddf9gA_4prU4Qvd";
 
 const { createClient } = supabase;
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
-
-// ===== BOTÓN VOLVER ARRIBA =====
-function volverArriba() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
 
 window.addEventListener("scroll", () => {
     const btn = document.getElementById("topBtn");

@@ -241,3 +241,19 @@ button:hover{
     max-width:80%;
     border-radius:10px;
 }
+
+.cta{
+    margin-top:25px;
+    padding:14px 28px;
+    background:#67e8f9;
+    color:black;
+    text-decoration:none;
+    font-weight:bold;
+    border-radius:8px;
+    transition:0.3s;
+    display:inline-block;
+}
+
+.cta:hover{
+    background:#a78bfa;
+}
