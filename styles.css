@@ -257,3 +257,29 @@ button:hover{
 .cta:hover{
     background:#a78bfa;
 }
+
+/* ===== TARJETAS SERVICIOS ===== */
+.servicio-card{
+    background:#111827;
+    padding:25px;
+    border-radius:12px;
+    border:1px solid #1f2937;
+    text-align:center;
+    transition:0.3s;
+}
+
+.servicio-card:hover{
+    transform:translateY(-6px);
+    border-color:#a78bfa;
+}
+
+.servicio-card h3{
+    color:#a78bfa;
+    margin-bottom:10px;
+}
+
+.precio{
+    color:#67e8f9;
+    font-size:20px;
+    font-weight:bold;
+}

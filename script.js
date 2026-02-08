@@ -7,41 +7,59 @@ const selectServicio = document.getElementById("servicio");
 const fechaInput = document.getElementById("fecha");
 const horaSelect = document.getElementById("hora");
 
-// SERVICIOS
-async function cargarServicios(){
-    const {data} = await supabase.from("servicios").select("*");
+// ===== CARGAR SERVICIOS COMO TARJETAS =====
+async function cargarServicios() {
+    const { data } = await supabase.from('servicios').select('*');
 
-    listaServicios.innerHTML="";
-    selectServicio.innerHTML='<option value="">Elegí un servicio</option>';
+    const lista = document.getElementById("listaServicios");
+    const select = document.getElementById("servicio");
 
-    data.forEach(s=>{
-        listaServicios.innerHTML += `<li>${s.nombre} - $${s.precio}</li>`;
-        selectServicio.innerHTML += `<option>${s.nombre}</option>`;
+    lista.innerHTML = "";
+    select.innerHTML = '<option value="">Elegí un servicio</option>';
+
+    data.forEach(s => {
+        // TARJETA VISUAL
+        const li = document.createElement("li");
+        li.className = "servicio-card";
+        li.innerHTML = `
+            <h3>${s.nombre}</h3>
+            <p class="precio">$${s.precio}</p>
+        `;
+        lista.appendChild(li);
+
+        // SELECT DEL FORM
+        const option = document.createElement("option");
+        option.value = s.nombre;
+        option.textContent = `${s.nombre} - $${s.precio}`;
+        select.appendChild(option);
     });
 }
 
-// HORARIOS
-async function cargarHorarios(fecha){
-    const {data} = await supabase
-        .from("turnos")
-        .select("hora")
-        .eq("fecha",fecha);
+async function cargarHorariosDisponibles(fecha) {
+    const horaSelect = document.getElementById("hora");
+    horaSelect.innerHTML = '<option value="">Cargando...</option>';
 
-    const ocupados = data.map(t=>t.hora);
+    const { data } = await supabase
+        .from('turnos')
+        .select('hora')
+        .eq('fecha', fecha);
 
-    horaSelect.innerHTML='<option value="">Elegí horario</option>';
+    const ocupados = data.map(t => t.hora);
 
-    for(let h=9;h<=20;h++){
-        const hora=`${String(h).padStart(2,'0')}:00`;
-        if(!ocupados.includes(hora)){
-            horaSelect.innerHTML+=`<option>${hora}</option>`;
+    horaSelect.innerHTML = '<option value="">Elegí un horario</option>';
+
+    for (let h = 9; h <= 20; h++) {
+        const hora = String(h).padStart(2, '0') + ":00";
+
+        if (!ocupados.includes(hora)) {
+            const option = document.createElement("option");
+            option.value = hora;
+            option.textContent = hora;
+            horaSelect.appendChild(option);
         }
     }
 }
 
-fechaInput.addEventListener("change",e=>{
-    cargarHorarios(e.target.value);
-});
 
 // RESERVA
 document.getElementById("formTurno").addEventListener("submit",async e=>{

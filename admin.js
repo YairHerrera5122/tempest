@@ -1,33 +1,84 @@
 const SUPABASE_URL = "https://avdlzmovgnzrksvtcpqs.supabase.co";
 const SUPABASE_KEY = "sb_publishable_HkQGFvP940_WnGA5ddf9gA_4prU4Qvd";
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-async function login(){
-    const email=email.value;
-    const password=password.value;
+const { createClient } = supabase;
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    const {error}=await supabase.auth.signInWithPassword({email,password});
-    if(error) return alert(error.message);
+const lista = document.getElementById("listaTurnos");
+const loginBox = document.getElementById("loginBox");
+const adminPanel = document.getElementById("adminPanel");
 
-    cargarTurnos();
+// ===== LOGIN =====
+async function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  iniciarAdmin();
 }
 
-async function cargarTurnos(){
-    const {data}=await supabase.from("turnos").select("*");
-
-    const lista=document.getElementById("listaTurnos");
-    lista.innerHTML="";
-
-    data.forEach(t=>{
-        lista.innerHTML+=`
-        <li>
-        ${t.fecha} ${t.hora} - ${t.nombre}
-        <button onclick="confirmar('${t.id}')">Confirmar</button>
-        </li>`;
-    });
+// ===== LOGOUT =====
+async function logout() {
+  await supabaseClient.auth.signOut();
+  location.reload();
 }
 
-async function confirmar(id){
-    await supabase.from("turnos").update({estado:"confirmado"}).eq("id",id);
-    cargarTurnos();
+// ===== INICIAR ADMIN =====
+async function iniciarAdmin() {
+  loginBox.style.display = "none";
+  adminPanel.style.display = "block";
+  cargarTurnos();
 }
+
+// ===== CARGAR TURNOS =====
+async function cargarTurnos() {
+  lista.innerHTML = "";
+
+  const { data } = await supabaseClient
+    .from("turnos")
+    .select("*")
+    .order("fecha", { ascending: true })
+    .order("hora", { ascending: true });
+
+  data.forEach((turno) => {
+    const li = document.createElement("li");
+
+    li.innerHTML = `
+      <b>${turno.fecha} ${turno.hora}</b> - ${turno.nombre} (${turno.servicio})
+      <br>Estado: <b>${turno.estado}</b><br>
+
+      <button onclick="cambiarEstado('${turno.id}','confirmado')">✅ Confirmar</button>
+      <button onclick="cambiarEstado('${turno.id}','cancelado')">❌ Cancelar</button>
+      <button onclick="borrarTurno('${turno.id}')">🗑 Borrar</button>
+      <hr>
+    `;
+
+    lista.appendChild(li);
+  });
+}
+
+// ===== ESTADO =====
+async function cambiarEstado(id, estado) {
+  await supabaseClient.from("turnos").update({ estado }).eq("id", id);
+  cargarTurnos();
+}
+
+// ===== BORRAR =====
+async function borrarTurno(id) {
+  await supabaseClient.from("turnos").delete().eq("id", id);
+  cargarTurnos();
+}
+
+// ===== SESIÓN ACTIVA =====
+supabaseClient.auth.getSession().then(({ data }) => {
+  if (data.session) iniciarAdmin();
+});
