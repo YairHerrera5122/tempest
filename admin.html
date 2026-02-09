@@ -25,14 +25,16 @@
   <div id="servicios"></div>
 </div>
 
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const { createClient } = supabase;
-window.db = createClient(
-  "https://avdlzmovgnzrksvtcpqs.supabase.co",
-  "sb_publishable_HkQGFvP940_WnGA5ddf9gA_4prU4Qvd"
-);
-</script>
+  const { createClient } = supabase;
 
+  const SUPABASE_URL = "https://wxndzaagngmkuseosozr.supabase.co";
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind4bmR6YWFnbmdta3VzZW9zb3pyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA1ODY5NjUsImV4cCI6MjA4NjE2Mjk2NX0.oXvp8yfkIz0ZzSemdPFWF1EeRKRdGihtRqkC_nMO0Sg";
+
+  window.supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+</script>
 <script src="admin.js"></script>
 </body>
 </html>
