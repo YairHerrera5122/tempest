@@ -1,67 +1,107 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tempest Barbería</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tempest Barbería</title>
 
-<link rel="stylesheet" href="styles.css">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- ScrollReveal -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <!-- Supabase (SIEMPRE en head) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
 
 <nav class="nav">
-  <div class="logo">Tempest</div>
-  <div class="links">
-    <a href="#servicios">Servicios</a>
-    <a href="#turnos">Turnos</a>
-    <a href="admin.html">Admin</a>
-  </div>
+    <div class="logo">Tempest</div>
+    <div class="links">
+        <a href="#servicios">Servicios</a>
+        <a href="#galeria">Trabajos</a>
+        <a href="#turnos">Turnos</a>
+        <a href="admin.html" class="admin-btn">Admin</a>
+    </div>
 </nav>
 
 <header>
-  <h1>Tempest Barbería</h1>
-  <p>Tu estilo, nuestra pasión</p>
-  <a href="#turnos" class="cta">Reservar turno</a>
+    <h1>Tempest Barbería</h1>
+    <p>Tu estilo, nuestra pasión</p>
+    <a href="#turnos" class="cta">Reservar turno</a>
 </header>
 
-<section id="servicios">
-  <h2>Servicios y precios</h2>
-  <div id="listaServicios" class="grid"></div>
+<section id="servicios" class="servicios">
+    <h2>Servicios y precios</h2>
+    <ul id="listaServicios"></ul>
 </section>
 
-<section id="turnos">
-  <h2>Reservar turno</h2>
-
-  <form id="formTurno">
-    <input id="nombre" placeholder="Tu nombre" required>
-
-    <select id="servicio" required></select>
-
-    <input type="date" id="fecha" required>
-
-    <select id="hora" required>
-      <option value="">Elegí un horario</option>
-    </select>
-
-    <button type="submit">Reservar</button>
-  </form>
-
-  <p id="msg"></p>
+<section id="galeria" class="galeria">
+    <h2>Nuestros trabajos</h2>
+    <div class="imagenes">
+        <div class="ph" onclick="abrirLightbox(this)">Próximamente</div>
+        <div class="ph" onclick="abrirLightbox(this)">Próximamente</div>
+        <div class="ph" onclick="abrirLightbox(this)">Próximamente</div>
+    </div>
 </section>
 
-<!-- SUPABASE -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<section id="turnos" class="turnos">
+    <h2>Reservar turno</h2>
+
+    <form id="formTurno">
+        <input type="text" id="nombre" placeholder="Tu nombre" required>
+
+        <select id="servicio" required>
+            <option value="">Elegí un servicio</option>
+        </select>
+
+        <input type="date" id="fecha" required>
+
+        <select id="hora" required>
+            <option value="">Elegí un horario</option>
+        </select>
+
+        <button type="submit">Enviar turno</button>
+
+        <p style="text-align:center; font-size:13px; color:#aaa;">
+            💈 Horarios de atención: 9:00 a 20:00 — Domingos cerrado
+        </p>
+    </form>
+
+    <p id="calendarLink" style="margin-top:20px;"></p>
+</section>
+
+<button id="topBtn" onclick="volverArriba()">⬆</button>
+
+<footer class="footer">
+    <p>© 2026 Tempest Barbería</p>
+    <div class="redes">
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://wa.me/5492975440834"><i class="fa-brands fa-whatsapp"></i></a>
+    </div>
+</footer>
+
+<div id="lightbox" class="lightbox" onclick="cerrarLightbox()">
+    <img id="lightboxImg" src="" alt="">
+    <div id="lightboxText">Próximamente</div>
+</div>
+
+<!-- Supabase INIT -->
 <script>
-  const { createClient } = supabase;
+    const { createClient } = supabase;
 
-  const SUPABASE_URL = "https://wxndzaagngmkuseosozr.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_KAG3A8gcyuW7vgwklc461w_G1j9YLKL";
+    const SUPABASE_URL = "https://avdlzmovgnzrksvtcpqs.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind4bmR6YWFnbmdta3VzZW9zb3pyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA1ODY5NjUsImV4cCI6MjA4NjE2Mjk2NX0.oXvp8yfkIz0ZzSemdPFWF1EeRKRdGihtRqkC_nMO0Sg";
 
-  window.supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    window.supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 </script>
-<script src="app.js"></script>
-<button id="topBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆</button>
+
+<script src="script.js"></script>
+
 </body>
 </html>
