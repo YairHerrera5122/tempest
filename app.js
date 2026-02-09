@@ -61,7 +61,18 @@ form.addEventListener("submit", async e => {
 
   msg.innerHTML = "✅ Turno reservado";
 
-  // WhatsApp
+  const inicio = `${turno.fecha}T${turno.hora}:00`;
+  const finHora = String(parseInt(turno.hora)+1).padStart(2,'0')+":00";
+  const fin = `${turno.fecha}T${finHora}:00`;
+
+  const calendar = `https://www.google.com/calendar/render?action=TEMPLATE
+  &text=Turno Tempest - ${turno.servicio}
+  &dates=${inicio.replace(/[-:]/g,'')}/${fin.replace(/[-:]/g,'')}
+  &details=Cliente: ${turno.nombre}`.replace(/\n/g,'');
+
+  window.open(calendar);
+
+   // WhatsApp
   const texto = `Hola Lucca! Reservé un turno:
 Nombre: ${turno.nombre}
 Servicio: ${turno.servicio}
