@@ -1,69 +1,38 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Tempest</title>
-
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<meta charset="UTF-8">
+<title>Admin Tempest</title>
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
-<body class="admin-body">
+<body>
 
-  <nav class="nav">
-      <div class="logo">Tempest Admin</div>
-      <div class="links">
-          <a href="index.html">Volver a la web</a>
-      </div>
-  </nav>
+<h1>Panel Admin</h1>
 
-  <header class="admin-header">
-      <h1>🔒 Panel de Administración</h1>
-  </header>
+<div id="login">
+  <input id="email" placeholder="Email">
+  <input id="pass" type="password" placeholder="Contraseña">
+  <button onclick="login()">Entrar</button>
+</div>
 
-  <!-- LOGIN -->
-  <section id="loginBox" class="admin-card">
-      <h2>Iniciar sesión</h2>
-      <input id="email" type="email" placeholder="Email">
-      <input id="password" type="password" placeholder="Contraseña">
-      <button onclick="login()" class="cta">Ingresar</button>
-  </section>
+<div id="panel" style="display:none">
+  <h2>Turnos</h2>
+  <div id="turnos"></div>
 
-  <!-- PANEL -->
-  <section id="adminPanel" style="display:none;">
+  <h2>Servicios</h2>
+  <div id="servicios"></div>
+</div>
 
-      <div class="admin-top">
-          <button onclick="logout()" class="cta">Cerrar sesión</button>
-      </div>
+<script>
+const { createClient } = supabase;
+window.db = createClient(
+  "https://avdlzmovgnzrksvtcpqs.supabase.co",
+  "sb_publishable_HkQGFvP940_WnGA5ddf9gA_4prU4Qvd"
+);
+</script>
 
-      <!-- TURNOS -->
-      <div class="admin-card">
-          <h2>📅 Turnos</h2>
-          <ul id="listaTurnos" class="turnos-admin"></ul>
-      </div>
-
-      <!-- PRECIOS -->
-      <div class="admin-card">
-          <h2>💲 Precios de servicios</h2>
-          <div id="listaPrecios"></div>
-          <button onclick="guardarPrecios()" class="cta">Guardar cambios</button>
-      </div>
-
-  </section>
-
-  <!-- SUPABASE -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-      const { createClient } = supabase;
-
-      const SUPABASE_URL = "https://avdlzmovgnzrksvtcpqs.supabase.co";
-      const SUPABASE_KEY = "sb_publishable_HkQGFvP940_WnGA5ddf9gA_4prU4Qvd";
-
-      window.supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-  </script>
-
-  <script src="admin.js"></script>
-
+<script src="admin.js"></script>
 </body>
 </html>

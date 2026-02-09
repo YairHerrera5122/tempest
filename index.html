@@ -1,61 +1,64 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tempest Barbería</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tempest Barbería</title>
 
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
 
 <nav class="nav">
-    <div class="logo">Tempest</div>
-    <div class="links">
-        <a href="#servicios">Servicios</a>
-        <a href="#turnos">Turnos</a>
-        <a href="admin.html">Admin</a>
-    </div>
+  <div class="logo">Tempest</div>
+  <div class="links">
+    <a href="#servicios">Servicios</a>
+    <a href="#turnos">Turnos</a>
+    <a href="admin.html">Admin</a>
+  </div>
 </nav>
 
 <header>
-    <h1>Tempest Barbería</h1>
-    <a href="#turnos" class="cta">Reservar turno</a>
+  <h1>Tempest Barbería</h1>
+  <p>Tu estilo, nuestra pasión</p>
+  <a href="#turnos" class="cta">Reservar turno</a>
 </header>
 
 <section id="servicios">
-    <h2>Servicios y precios</h2>
-    <ul id="listaServicios"></ul>
+  <h2>Servicios y precios</h2>
+  <div id="listaServicios" class="grid"></div>
 </section>
 
 <section id="turnos">
-    <h2>Reservar turno</h2>
+  <h2>Reservar turno</h2>
 
-    <form id="formTurno">
-        <input type="text" id="nombre" placeholder="Tu nombre" required>
+  <form id="formTurno">
+    <input id="nombre" placeholder="Tu nombre" required>
 
-        <select id="servicio" required></select>
+    <select id="servicio" required></select>
 
-        <input type="date" id="fecha" required>
+    <input type="date" id="fecha" required>
 
-        <select id="hora" required></select>
+    <select id="hora" required>
+      <option value="">Elegí un horario</option>
+    </select>
 
-        <button type="submit">Reservar</button>
-    </form>
+    <button type="submit">Reservar</button>
+  </form>
 
-    <p id="calendarLink"></p>
+  <p id="msg"></p>
 </section>
 
-<button onclick="volverArriba()" id="topBtn">⬆</button>
-
 <script>
-const SUPABASE_URL = "https://avdlzmovgnzrksvtcpqs.supabase.co";
-const SUPABASE_KEY = "sb_publishable_HkQGFvP940_WnGA5ddf9gA_4prU4Qvd";
-window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const { createClient } = supabase;
+window.db = createClient(
+  "https://avdlzmovgnzrksvtcpqs.supabase.co",
+  "sb_publishable_HkQGFvP940_WnGA5ddf9gA_4prU4Qvd"
+);
 </script>
 
-<script src="script.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
